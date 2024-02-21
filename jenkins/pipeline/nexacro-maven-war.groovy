@@ -4,7 +4,7 @@ pipeline {
     environment {
         // 환경 변수 설정
         JAVA_HOME = "/usr/lib/jvm/java-1.8.0"
-        JBOSS_HOME = "/path/to/jboss-eap-7"
+        TOMCAT_HOME = "/opt/apache-tomcat-9.0.85"
     }
 
     stages {
@@ -33,7 +33,7 @@ pipeline {
                     // 예시 스크립트 실행: 환경 변수 확인
                     sh "printenv | grep JAVA_HOME"
                     // 또는 다른 커스텀 스크립트를 실행할 수 있음
-                    // sh "./check_services.sh"
+                    sh "sh /var/lib/jenkins/scripts/nexacro/ucammes-generate.sh"
                 }
             }
         }
@@ -47,10 +47,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // JBoss EAP에 배포
+                // Tomcat에 배포
                 script {
-                    def warFile = findFiles(glob: '**/*.war')[0].path
-                    sh "cp ${warFile} ${JBOSS_HOME}/standalone/deployments/"
+                    sh "whoami"
+                    sh "mv /var/lib/jenkins/workspace/ucammes-pipe/target/*.war /var/lib/jenkins/workspace/ucammes-pipe/target/ROOT.war"
+                    sh "cp /var/lib/jenkins/workspace/ucammes-pipe/target/ROOT.war ${TOMCAT_HOME}/webapps/"
                 }
             }
         }

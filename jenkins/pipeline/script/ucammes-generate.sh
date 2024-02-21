@@ -1,0 +1,2 @@
+#!/bin/sh
+sh /var/lib/jenkins/scripts/nexacro/bin/start.sh -P "/var/lib/jenkins/workspace/ucammes-pipe/src/main/ui/nexacro/nexacro-n-demo-ui.xprj" -O "/var/lib/jenkins/workspace/ucammes-pipe/src/main/webapp/nexacro" -B "/var/lib/jenkins/workspace/ucammes-pipe/src/main/ui/nexacrolib" -GENERATERULE "/var/lib/jenkins/workspace/ucammes-pipe/src/main/ui/generate" -REGENERATE

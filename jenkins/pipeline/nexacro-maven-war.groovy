@@ -7,6 +7,10 @@ pipeline {
         TOMCAT_HOME = "/opt/apache-tomcat-9.0.85"
     }
 
+    options{
+        disableConcurrentBuilds() // 동시 여러개 빌드하는 것을 방지
+    }
+
     stages {
         stage('Git Checkout') {
             steps {
@@ -52,6 +56,8 @@ pipeline {
                     sh "whoami"
                     sh "mv /var/lib/jenkins/workspace/ucammes-pipe/target/*.war /var/lib/jenkins/workspace/ucammes-pipe/target/ROOT.war"
                     sh "cp /var/lib/jenkins/workspace/ucammes-pipe/target/ROOT.war ${TOMCAT_HOME}/webapps/"
+                    // Jenkins가 파이프라인 빌드 완료 후 실행한 child process를 kill 하지 않게 dontKillMe
+                    sh "JENKINS_NODE_COOKIE=dontKillMe && nohup sh ${TOMCAT_HOME}/startup.sh &"
                 }
             }
         }
